@@ -11,8 +11,8 @@ export default function Navbar() {
                     <li><Link className="transition text-lg hover:text-slate-400" href="#about">About</Link></li>
                     <li><Link className="transition text-lg hover:text-slate-400" href="#projects">Projects</Link></li>
                     <li><Link className="transition text-lg hover:text-slate-400" href="#skills">Skills</Link></li>
-                    <li><Link className="transition text-lg hover:text-slate-400" href="#cv">CV</Link></li>
                     <li><Link className="transition text-lg hover:text-slate-400" href="#contact">Contact</Link></li>
+                    <li><button className="bg-blue-600 rounded p-2 hover:bg-blue-700">Download CV</button></li>
                 </ul>
             </div>
         </nav>

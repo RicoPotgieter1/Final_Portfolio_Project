@@ -1,6 +1,5 @@
 import AboutSection from "./ui/about"
 import ProjectsSection from "./ui/projects"
-import CVSection from "./ui/cv"
 import ContactSection from "./ui/contact"
 import SkillsSection from "./ui/skills"
 import HeroSection from "./ui/herosection"
@@ -23,7 +22,6 @@ export default function MainPage() {
                     </p>
                 <ProjectsSection />
                 <SkillsSection />
-                <CVSection />
                 <ContactSection />
             </div>
         </main>
