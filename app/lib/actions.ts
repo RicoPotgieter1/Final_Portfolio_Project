@@ -1,7 +1,7 @@
 'use server';
 
 import { redirect } from 'next/navigation';
-import { createClient } from '@/app/lib/supabase/sever';
+import { createClient } from '@/app/lib/supabase/server';
 
 export async function authenticate(
   prevState: string | undefined,
@@ -16,5 +16,5 @@ export async function authenticate(
 
   if (error) return error.message;
 
-  redirect('/dashboard');
+  redirect('/admin');
 }

@@ -26,7 +26,16 @@ export default function MainPage() {
                     <AboutSection />
                 </Suspense>
                 <ProjectsSection />
-                <SkillsSection />
+
+                <Suspense fallback={
+                    <section id="skills" className="p-7 pb-3" aria-busy="true">
+                        <h2 className="flex text-2xl font-semibold justify-center">Skills</h2>
+                        <p className="mx-20 pt-2">Loading skills content...</p>
+                    </section>
+                }>
+                    <SkillsSection />
+                </Suspense>
+                
                 <ContactSection />
             </div>
         </main>

@@ -1,4 +1,4 @@
-import { createClient } from "../lib/supabase/client"
+import { createClient } from "../lib/supabase/server"
 
 
 export default async function AboutSection() {
@@ -10,6 +10,7 @@ export default async function AboutSection() {
         .single();
 
     if (error || !about) {
+        console.error("Failed to fetch about content from Supabase:", error);
         return <p>About content is unavailable right now.</p>;
     }
 

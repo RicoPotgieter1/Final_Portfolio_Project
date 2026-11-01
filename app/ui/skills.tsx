@@ -1,4 +1,24 @@
-export default function SkillsSection() {
+import { createClient } from "../lib/supabase/server"
+
+type Skill = {
+    id: number;
+    heading: string;
+    content: string | string[] | null;
+};
+
+export default async function SkillsSection() {
+    const supabase = await createClient();
+    const {data: skills, error} = await supabase
+        .from ("skills")
+        .select("*")
+        .limit(10);
+
+    if (error) {
+        console.error("Failed to fetch skills from Supabase:", error);
+        return <p>Skills content is unavailable right now.</p>;
+    }
+
+
     return (
         <>
         <section id="about" className="p-7 pb-3">
@@ -6,50 +26,23 @@ export default function SkillsSection() {
         </section>
 
         <div className="grid md:grid-cols-4 grid-cols-1 md:grid-rows-1 grid-rows-4 gap-3">
-
-            <div className="border-2 rounded-lg p-6">
+            {skills.map((skill: Skill) => (
+            <div key={skill.id} className="border-2 rounded-lg p-6">
                 <div className="flex items-center justify-center pb-3">
-                    <h3 className="text-center text-xl font-bold">Languages</h3>
+                    <h3 className="text-center text-xl font-bold">{skill.heading}</h3>
                 </div>
                 <ul className="list-disc list-inside">
-                    <li>Html</li>
-                    <li>CSS</li>
-                    <li>Python</li>
-                    <li>JavaScript</li>
+                    {(Array.isArray(skill.content)
+                        ? skill.content
+                        : typeof skill.content === "string"
+                            ? skill.content.split(/[\r\n,]+/).map((item) => item.trim()).filter(Boolean)
+                            : []
+                    ).map((item, index) => (
+                        <li key={index}>{item}</li>
+                    ))}
                 </ul>
             </div>
-
-            <div className="border-2 rounded-lg p-6">
-                <div className="flex items-center justify-center pb-3">
-                    <h3 className="text-center text-xl font-bold">Frameworks & Tools</h3>
-                </div>
-                <ul className="list-disc list-inside">
-                    <li>Git</li>
-                    <li>Tailwind</li>
-                </ul>
-            </div>
-
-            <div className="border-2 rounded-lg p-6">
-                <div className="flex items-center justify-center pb-3">
-                    <h3 className="text-center text-xl font-bold">Databases</h3>
-                </div>
-                
-                <ul className="list-disc list-inside">
-                    <li>PostgreSQL</li>
-                    <li>Supabase</li>
-                </ul>
-            </div>
-            
-            <div className="border-2 rounded-lg p-6">
-                <div className="flex items-center justify-center pb-3">
-                    <h3 className="text-center text-xl font-bold">Backend & APIs</h3>
-                </div>
-                <ul className="list-disc list-inside">
-                    <li>Next.js</li>
-                    <li>Flask</li>
-                    <li>Jinja</li>
-                </ul>
-            </div>
+            ))}
         </div>
     </>
     )
