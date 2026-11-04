@@ -1,4 +1,5 @@
 import { createClient } from "../lib/supabase/server"
+import { connection } from "next/server"
 
 type Skill = {
     id: number;
@@ -7,6 +8,7 @@ type Skill = {
 };
 
 export default async function SkillsSection() {
+    await connection();
     const supabase = await createClient();
     const {data: skills, error} = await supabase
         .from ("skills")
@@ -21,7 +23,7 @@ export default async function SkillsSection() {
 
     return (
         <>
-        <section id="about" className="p-7 pb-3">
+        <section id="skills" className="p-7 pb-3">
             <h2 className="flex text-2xl font-semibold justify-center">Skills</h2>
         </section>
 
