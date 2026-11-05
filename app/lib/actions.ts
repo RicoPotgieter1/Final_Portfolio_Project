@@ -110,3 +110,37 @@ export async function authenticate(
 
   redirect('/admin');
 }
+
+type ContactFormState =
+  | { status: 'success'; message: string }
+  | { status: 'error'; message: string };
+
+export async function SubmitContactForm(
+  _prevState: ContactFormState | null,
+  formData: FormData,
+): Promise<ContactFormState> {
+  const supabase = await createClient();
+
+  const { error } = await supabase.from('contact_messages').insert({
+    first_name: getTextField(formData, 'firstName'),
+    last_name: getTextField(formData, 'lastName'),
+    email: getTextField(formData, 'email'),
+    message: getTextField(formData, 'message'),
+  });
+
+  if (error) {
+    console.error('Failed to submit contact form:', error);
+    return {
+      status: 'error',
+      message: 'Unable to send your message. Please try again.',
+    };
+  }
+
+  return { status: 'success', message: 'Your message has been sent.' };
+}
+
+export async function signOut() {
+  const supabase = await createClient();
+  await supabase.auth.signOut();
+  redirect('/');
+}
