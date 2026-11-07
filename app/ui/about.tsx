@@ -19,7 +19,7 @@ export default async function AboutSection() {
     return (
         <section id="about" className="p-7 pb-3">
             <h2 className="flex text-2xl font-semibold justify-center">About</h2>
-            <p className="mx-20 pt-2">
+            <p className="mx-auto max-w-3xl pt-2">
                 {about.About_content}
             </p>
         </section>
