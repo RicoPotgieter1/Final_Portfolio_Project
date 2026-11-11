@@ -4,6 +4,7 @@ import { createClient } from "../lib/supabase/server"
 import { connection } from "next/server"
 import { savePortfolioContent, signOut } from "../lib/actions"
 import { PowerIcon } from "@heroicons/react/24/outline"
+import AdminProjectScreenshots from "../ui/admin-project-screenshots"
 
 export const metadata = {
     title: "Portfolio Editor"
@@ -13,9 +14,10 @@ async function AdminContent({ searchParams }) {
     await connection();
     const { saved } = await searchParams;
     const supabase = await createClient();
-    const [aboutResult, skillsResult] = await Promise.all([
+    const [aboutResult, skillsResult, projectsResult] = await Promise.all([
         supabase.from("about").select("About_content").limit(1).maybeSingle(),
         supabase.from("skills").select("heading, content").limit(10),
+        supabase.from("projects").select("id, title, description, file_path").order("id").limit(10),
     ]);
 
     if (aboutResult.error) {
@@ -24,6 +26,10 @@ async function AdminContent({ searchParams }) {
 
     if (skillsResult.error) {
         console.error("Failed to load Skills content for admin:", skillsResult.error);
+    }
+
+    if (projectsResult.error) {
+        console.error("Failed to load Projects content for admin:", projectsResult.error);
     }
 
     const getSkillContent = (heading) => {
@@ -40,7 +46,7 @@ async function AdminContent({ searchParams }) {
                     Portfolio content saved.
                 </p>
             )}
-            {(aboutResult.error || skillsResult.error) && (
+            {(aboutResult.error || skillsResult.error || projectsResult.error) && (
                 <p role="alert" className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-800">
                     Some saved content could not be loaded. Check the server logs for details.
                 </p>
@@ -65,6 +71,49 @@ async function AdminContent({ searchParams }) {
                         className={textareaClassName}
                         required
                     />
+                </section>
+
+                <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
+                    <div className="mb-5">
+                        <h2 className="text-lg font-semibold text-slate-900">Projects</h2>
+                        <p className="mt-1 text-sm text-slate-500">
+                            Update the projects section of your portfolio.
+                        </p>
+                    </div>
+                    <label htmlFor="title" className="mb-2 block text-sm font-medium text-slate-700">
+                        Title
+                    </label>
+                    <textarea
+                        id="title"
+                        name="title"
+                        rows={1}
+                        defaultValue={projectsResult.data?.[0]?.title ?? ""}
+                        className={textareaClassName}
+                        required
+                    />
+
+                    <label htmlFor="description" className="mb-2 block text-sm font-medium text-slate-700">
+                        Description
+                    </label>
+                    <textarea
+                        id="description"
+                        name="description"
+                        rows={3}
+                        defaultValue={projectsResult.data?.[0]?.description ?? ""}
+                        className={textareaClassName}
+                        required
+                    />
+                    {projectsResult.data?.[0] && (
+                        <AdminProjectScreenshots
+                            projectId={projectsResult.data[0].id}
+                            filePaths={projectsResult.data[0].file_path ?? []}
+                        />
+                    )}
+                    {!projectsResult.error && projectsResult.data?.length === 0 && (
+                        <p className="mt-5 text-sm text-slate-500">
+                            Create a project before uploading screenshots.
+                        </p>
+                    )}
                 </section>
 
                 <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">

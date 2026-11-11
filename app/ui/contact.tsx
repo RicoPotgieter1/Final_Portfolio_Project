@@ -26,7 +26,7 @@ export default function ContactSection() {
             <h2 id="contact-heading" className="mb-8 text-center text-3xl font-bold">
                 Contact Me
             </h2>
-            <div className="mx-auto max-w-md rounded-lg border-2 border-black bg-card p-6 shadow-md dark:bg-card-dark">
+            <div className="mx-auto max-w-md rounded-lg border border-black shadow-md bg-card p-6 dark:bg-card-dark">
                 <form id="contact-form" action={formAction}>
                     <div className="mb-4">
                         <label htmlFor="first-name" className="mb-2 block font-bold">

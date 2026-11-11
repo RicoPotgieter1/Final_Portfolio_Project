@@ -95,6 +95,151 @@ export async function savePortfolioContent(formData: FormData) {
   redirect('/admin?saved=1');
 }
 
+export async function saveProjectScreenshots(
+  projectId: string,
+  uploadedPaths: string[],
+): Promise<{ error: string | null }> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
+
+  if (authError || !user) {
+    return { error: 'You must be signed in to upload project screenshots.' };
+  }
+
+  if (
+    typeof projectId !== 'string' ||
+    !/^\d+$/.test(projectId) ||
+    !Array.isArray(uploadedPaths) ||
+    uploadedPaths.length === 0 ||
+    uploadedPaths.length > 10 ||
+    uploadedPaths.some((path) => typeof path !== 'string')
+  ) {
+    return { error: 'The project or screenshot list is invalid.' };
+  }
+
+  const screenshotPathPattern = new RegExp(
+    `^project-${projectId}/[0-9a-f-]{36}(?:-[a-zA-Z0-9_-]+)?\\.(jpg|png|webp)$`,
+    'i',
+  );
+  if (uploadedPaths.some((path) => !screenshotPathPattern.test(path))) {
+    return { error: 'One or more screenshot paths are invalid.' };
+  }
+
+  const { data: project, error: projectReadError } = await supabase
+    .from('projects')
+    .select('file_path')
+    .eq('id', projectId)
+    .maybeSingle();
+
+  if (projectReadError) {
+    return { error: `Failed to load the project screenshots: ${projectReadError.message}` };
+  }
+
+  if (!project) {
+    return { error: 'The selected project could not be found.' };
+  }
+
+  const filePaths = [...new Set([...(project.file_path ?? []), ...uploadedPaths])];
+  const { data: updatedProject, error: updateError } = await supabase
+    .from('projects')
+    .update({ file_path: filePaths })
+    .eq('id', projectId)
+    .select('id')
+    .maybeSingle();
+
+  if (updateError) {
+    return { error: `Failed to save screenshot paths: ${updateError.message}` };
+  }
+
+  if (!updatedProject) {
+    return { error: 'The selected project could not be updated.' };
+  }
+
+  revalidatePath('/');
+  revalidatePath('/admin');
+  return { error: null };
+}
+
+export async function removeProjectScreenshot(
+  projectId: string,
+  screenshotPath: string,
+): Promise<{ error: string | null }> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
+
+  if (authError || !user) {
+    return { error: 'You must be signed in to remove project screenshots.' };
+  }
+
+  if (typeof projectId !== 'string' || !/^\d+$/.test(projectId)) {
+    return { error: 'The project is invalid.' };
+  }
+
+  const screenshotPathPattern = new RegExp(
+    `^project-${projectId}/[0-9a-f-]{36}(?:-[a-zA-Z0-9_-]+)?\\.(jpg|png|webp)$`,
+    'i',
+  );
+  if (typeof screenshotPath !== 'string' || !screenshotPathPattern.test(screenshotPath)) {
+    return { error: 'The screenshot path is invalid.' };
+  }
+
+  const { data: project, error: projectReadError } = await supabase
+    .from('projects')
+    .select('file_path')
+    .eq('id', projectId)
+    .maybeSingle();
+
+  if (projectReadError) {
+    return { error: `Failed to load the project screenshots: ${projectReadError.message}` };
+  }
+
+  if (!project?.file_path?.includes(screenshotPath)) {
+    return { error: 'That screenshot is not attached to this project.' };
+  }
+
+  const { error: storageError } = await supabase.storage
+    .from('screenshots')
+    .remove([screenshotPath]);
+
+  if (storageError) {
+    return {
+      error: `Failed to delete the screenshot from storage: ${storageError.message}`,
+    };
+  }
+
+  const remainingPaths = project.file_path.filter((path: string) => path !== screenshotPath);
+  const { data: updatedProject, error: updateError } = await supabase
+    .from('projects')
+    .update({ file_path: remainingPaths })
+    .eq('id', projectId)
+    .contains('file_path', [screenshotPath])
+    .select('id')
+    .maybeSingle();
+
+  revalidatePath('/');
+  revalidatePath('/admin');
+
+  if (updateError) {
+    return {
+      error: `The screenshot was deleted from storage, but its project reference could not be removed: ${updateError.message}`,
+    };
+  }
+
+  if (!updatedProject) {
+    return {
+      error: 'The screenshot was deleted from storage, but the project list changed. Refresh the page.',
+    };
+  }
+
+  return { error: null };
+}
+
 export async function authenticate(
   prevState: string | undefined,
   formData: FormData,

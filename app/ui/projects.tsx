@@ -1,23 +1,37 @@
-import clinicCareDashboardImage from "../assets/clinic_care_dashboard.png";
+import { createClient } from "../lib/supabase/server"
+import Carousel from "./carousel";
 
-export default function ProjectsSection() {
+export default async function ProjectsSection() {
+    const supabase = await createClient();
+
+    const {data: projects, error} = await supabase
+        .from("projects")
+        .select("*")
+        .limit(1)
+        .single();
+
+    if (error || !projects) {
+        console.error("Failed to fetch projects from Supabase:", error);
+        return <p>Projects content is unavailable right now.</p>;
+    }
+
+
     return (
         <section id="projects" className="py-8">
             <h2 className="mb-6 text-center text-2xl font-semibold">Projects</h2>
             <article className="mx-auto max-w-3xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-shadow duration-200 hover:shadow-lg">
-                <div className="overflow-hidden bg-slate-100">
-                    <img
-                        src={clinicCareDashboardImage.src}
-                        alt="Clinic Care dashboard showing invoices and appointment trends"
-                        className="mx-auto aspect-video w-full py-3 px-3 max-w-3xl rounded-2xl object-cover object-top transition-transform duration-300 hover:scale-[1.02]"
-                    />
+                <div className="overflow-hidden bg-slate-100 ">
+                    <Carousel slides={(projects.file_path ?? []).map((screenshot: string) => ({
+                        src: supabase.storage.from("screenshots").getPublicUrl(screenshot).data.publicUrl,
+                        alt: `Screenshot of ${projects.title}`,
+                    }))} />
                 </div>
                 <div className="p-6 sm:p-8">
                     <h3 className="mt-3 text-xl font-semibold text-slate-900 sm:text-2xl">
-                        Clinic Care Dashboard
+                        {projects.title}
                     </h3>
                     <p className="mt-3 max-w-3xl leading-relaxed text-slate-600">
-                        Clinic Care helps clinics manage patient records, schedule appointments, view appointment trends, and track invoices — all in one dashboard.
+                        {projects.description}
                     </p>
                 </div>
             </article>

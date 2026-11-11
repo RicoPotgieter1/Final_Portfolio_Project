@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import type { MouseEvent } from "react";
 
 const links = [
@@ -24,13 +23,22 @@ function navigateToSection(event: MouseEvent<HTMLAnchorElement>, href: string) {
     window.scrollTo({ top: targetPosition, behavior: "smooth" });
 }
 
+function navigateToTop(event: MouseEvent<HTMLAnchorElement>) {
+    event.preventDefault();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
 export default function Navbar() {
     return(
         <nav className="sticky top-0 z-50 border-b border-white/10 bg-slate-900/100 backdrop-blur">
             <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between px-4 py-4 sm:px-10 sm:py-5">
-                <Link href="#top" className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+                <a
+                    href="#top"
+                    onClick={navigateToTop}
+                    className="text-2xl font-bold tracking-tight text-white sm:text-3xl"
+                >
                     <h1>Portfolio</h1>
-                </Link>
+                </a>
 
                 <details className="group md:hidden">
                     <summary
