@@ -29,7 +29,7 @@ export default async function SkillsSection() {
 
         <div className="grid md:grid-cols-4 grid-cols-1 md:grid-rows-1 mx-auto w-full max-w-sm md:max-w-5xl grid-rows-4 gap-6 md:gap-3">
             {skills.map((skill: Skill) => (
-            <div key={skill.id} className="rounded-2xl border border-slate-200 bg-white shadow-md transition-shadow duration-100 hover:shadow-lg p-6">
+            <div key={skill.id} className="rounded-2xl border border-slate-200 bg-slate-50 p-5 transition-colors hover:border-slate-300 hover:bg-white shadow-md transition-shadow duration-100 hover:shadow-lg">
                 <div className="flex items-center justify-center pb-3">
                     <h3 className="text-center text-xl font-bold">{skill.heading}</h3>
                 </div>

@@ -33,6 +33,16 @@ export async function savePortfolioContent(formData: FormData) {
   }
 
   const aboutContent = getTextField(formData, 'about');
+  const projectContent = {
+    title: getTextField(formData, 'title'),
+    description: getTextField(formData, 'description'),
+    problem: getTextField(formData, 'problem'),
+    role: getTextField(formData, 'role'),
+    stack: getTextField(formData, 'stack'),
+    next_steps: getTextField(formData, 'next'),
+    github: getTextField(formData, 'github'),
+    live_link: getTextField(formData, 'live_link')
+  };
   const skillContent = skillHeadings.map((heading) => ({
     heading,
     content: getTextField(formData, heading),
@@ -64,6 +74,21 @@ export async function savePortfolioContent(formData: FormData) {
     throw new Error(`Failed to load About content for saving: ${aboutReadError.message}`);
   }
 
+  const { data: project, error: projectReadError } = await supabase
+    .from('projects')
+    .select('id')
+    .order('id')
+    .limit(1)
+    .maybeSingle();
+
+  if (projectReadError) {
+    throw new Error(`Failed to load a project for saving: ${projectReadError.message}`);
+  }
+
+  if (!project) {
+    throw new Error('Cannot save project content because no project exists.');
+  }
+
   const aboutWrite = about
     ? supabase.from('about').update({ About_content: aboutContent }).eq('id', about.id)
     : supabase.from('about').insert({ About_content: aboutContent });
@@ -88,6 +113,15 @@ export async function savePortfolioContent(formData: FormData) {
     if (error) {
       throw new Error(`Failed to save ${heading}: ${error.message}`);
     }
+  }
+
+  const { error: projectWriteError } = await supabase
+    .from('projects')
+    .update(projectContent)
+    .eq('id', project.id);
+
+  if (projectWriteError) {
+    throw new Error(`Failed to save project content: ${projectWriteError.message}`);
   }
 
   revalidatePath('/');

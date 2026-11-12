@@ -17,7 +17,7 @@ async function AdminContent({ searchParams }) {
     const [aboutResult, skillsResult, projectsResult] = await Promise.all([
         supabase.from("about").select("About_content").limit(1).maybeSingle(),
         supabase.from("skills").select("heading, content").limit(10),
-        supabase.from("projects").select("id, title, description, file_path").order("id").limit(10),
+        supabase.from("projects").select("id, title, description, file_path, problem, role, stack, next_steps, github, live_link").order("id").limit(10),
     ]);
 
     if (aboutResult.error) {
@@ -38,6 +38,7 @@ async function AdminContent({ searchParams }) {
     };
 
     const textareaClassName = "w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm leading-6 text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/15";
+    const inputClassName = "w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm leading-6 text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/15";
 
     return (
         <div className="space-y-6">
@@ -92,7 +93,7 @@ async function AdminContent({ searchParams }) {
                         required
                     />
 
-                    <label htmlFor="description" className="mb-2 block text-sm font-medium text-slate-700">
+                    <label htmlFor="description" className="mb-2 mt-5 block text-sm font-medium text-slate-700">
                         Description
                     </label>
                     <textarea
@@ -103,6 +104,82 @@ async function AdminContent({ searchParams }) {
                         className={textareaClassName}
                         required
                     />
+
+                    <label htmlFor="description" className="mb-2 mt-5 block text-sm font-medium text-slate-700">
+                        The Problem
+                    </label>
+                    <textarea
+                        id="problem"
+                        name="problem"
+                        rows={3}
+                        defaultValue={projectsResult.data?.[0]?.problem ?? ""}
+                        className={textareaClassName}
+                        required
+                    />
+
+                    <label htmlFor="description" className="mb-2 mt-5 block text-sm font-medium text-slate-700">
+                        My Role
+                    </label>
+                    <textarea
+                        id="role"
+                        name="role"
+                        rows={3}
+                        defaultValue={projectsResult.data?.[0]?.role ?? ""}
+                        className={textareaClassName}
+                        required
+                    />
+
+                    <label htmlFor="description" className="mb-2 mt-5 block text-sm font-medium text-slate-700">
+                        Tech Stack
+                    </label>
+                    <textarea
+                        id="stack"
+                        name="stack"
+                        rows={2}
+                        defaultValue={projectsResult.data?.[0]?.stack ?? ""}
+                        className={textareaClassName}
+                        required
+                    />
+
+                    <label htmlFor="description" className="mb-2 mt-5 block text-sm font-medium text-slate-700">
+                        What's Next
+                    </label>
+                    <textarea
+                        id="next"
+                        name="next"
+                        rows={3}
+                        defaultValue={projectsResult.data?.[0]?.next_steps ?? ""}
+                        className={textareaClassName}
+                        required
+                    />
+
+                    <div className="mt-5 flex gap-5">
+                        <div className="flex-1">
+                            <label htmlFor="github" className="mb-2 block text-sm font-medium text-slate-700">
+                                GitHub Repository
+                            </label>
+                            <input
+                                type="url"
+                                id="github"
+                                name="github"
+                                defaultValue={projectsResult.data?.[0]?.github ?? ""}
+                                className={inputClassName}
+                            />
+                        </div>
+                        <div className="flex-1">
+                            <label htmlFor="live_link" className="mb-2 block text-sm font-medium text-slate-700">
+                                Live Demo
+                            </label>
+                            <input
+                                type="url"
+                                id="live_link"
+                                name="live_link"
+                                defaultValue={projectsResult.data?.[0]?.live_link ?? ""}
+                                className={inputClassName}
+                            />
+                        </div>
+                    </div>
+
                     {projectsResult.data?.[0] && (
                         <AdminProjectScreenshots
                             projectId={projectsResult.data[0].id}
