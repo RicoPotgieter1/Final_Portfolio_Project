@@ -63,7 +63,7 @@ export function SkillsSkeleton() {
                 <h2 className="flex text-2xl font-semibold justify-center">Skills</h2>
             </section>
 
-            <div className="mx-auto grid h-40 w-full max-w-sm grid-cols-1 gap-6 md:max-w-5xl md:grid-cols-4 md:grid-rows-1 md:gap-3">
+            <div className="mx-auto grid w-full max-w-sm grid-cols-1 gap-6 md:max-w-5xl md:grid-cols-4 md:grid-rows-1 md:gap-3" aria-busy="true">
                 {Array.from({ length: 4 }).map((_, index) => (
                     <div
                         key={index}
