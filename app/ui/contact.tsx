@@ -5,7 +5,7 @@ import Button from './button'
 import { SubmitContactForm } from '../lib/actions'
 
 export default function ContactSection() {
-    const [state, formAction] = useActionState(SubmitContactForm, null);
+    const [state, formAction, isPending] = useActionState(SubmitContactForm, null);
     const [dismissedState, setDismissedState] = useState<typeof state>(null);
 
     useEffect(() => {
@@ -82,8 +82,8 @@ export default function ContactSection() {
                             required
                         />
                     </div>
-                    <Button type="submit">
-                        Send Message
+                    <Button type="submit" disabled={isPending} aria-busy={isPending}>
+                        {isPending ? 'Sending...' : 'Send Message'}
                     </Button>
                     {state && (state.status === 'error' || dismissedState !== state) && (
                         <p

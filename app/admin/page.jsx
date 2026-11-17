@@ -1,10 +1,11 @@
 import { Suspense } from "react"
-import Button from "../ui/button"
 import { createClient } from "../lib/supabase/server"
 import { connection } from "next/server"
 import { savePortfolioContent, signOut } from "../lib/actions"
 import { PowerIcon } from "@heroicons/react/24/outline"
 import AdminProjectScreenshots from "../ui/admin-project-screenshots"
+import PendingButton from "../ui/pending-button"
+import SavedNotice from "../ui/saved-notice"
 
 export const metadata = {
     title: "Portfolio Editor"
@@ -42,11 +43,6 @@ async function AdminContent({ searchParams }) {
 
     return (
         <div className="space-y-6">
-            {saved === "1" && (
-                <p role="status" className="rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm font-medium text-green-800">
-                    Portfolio content saved.
-                </p>
-            )}
             {(aboutResult.error || skillsResult.error || projectsResult.error) && (
                 <p role="alert" className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-800">
                     Some saved content could not be loaded. Check the server logs for details.
@@ -223,11 +219,17 @@ async function AdminContent({ searchParams }) {
                         ))}
                     </div>
                 </section>
-
-                <div className="flex justify-end border-t border-slate-200 pt-5">
-                    <Button type="submit" className="h-11 px-6">
-                        Save changes
-                    </Button>
+                <div className="flex items-end justify-between gap-3 border-t border-slate-200 pt-5">
+                    <PendingButton type="submit" formAction={signOut} variant="secondary" pendingText="Please wait...">
+                        <PowerIcon className="mr-2 h-4 w-4" />
+                        Sign out
+                    </PendingButton>
+                    <div className="flex flex-col items-end gap-3">
+                        {saved === "1" && <SavedNotice />}
+                        <PendingButton type="submit" className="h-11 px-6" pendingText="Saving...">
+                            Save changes
+                        </PendingButton>
+                    </div>
                 </div>
             </form>
         </div>
@@ -238,7 +240,7 @@ export default function AdminPage({ searchParams }) {
     return (
         <main id="top" className="min-h-screen bg-slate-50 px-4 py-8 text-slate-900 sm:px-6 sm:py-12">
             <div className="mx-auto max-w-5xl">
-                <header className="mb-8 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+                <header className="mb-8">
                     <div>
                         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-blue-600">
                             Administration
@@ -250,15 +252,6 @@ export default function AdminPage({ searchParams }) {
                             Manage the content displayed on your portfolio.
                         </p>
                     </div>
-                    <form action={signOut}>
-                        <Button
-                            type="submit"
-                            variant="secondary"
-                        >
-                            <PowerIcon className="mr-2 h-4 w-4" />
-                            Sign out
-                        </Button>
-                    </form>
                 </header>
                 <Suspense
                     fallback={

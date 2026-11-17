@@ -66,8 +66,16 @@ export default function Navbar() {
                                 </a>
                             </li>
                         ))}
+
+                        <li className="md:px-3 md:py-2">
+                            <a
+                                className="block rounded-md px-3 py-2 text-lg transition hover:bg-white/10 hover:text-white" href="/Rico-Potgieter-CV.pdf" target="_blank" rel="noopener noreferrer">
+                                CV
+                            </a>
+                        </li>
+
                         <li className="px-3 py-2">
-                            <button className="w-full rounded bg-blue-600 p-2 hover:bg-blue-700">Download CV</button>
+                            <a href="/Rico-Potgieter-CV.pdf" download className="w-full rounded bg-blue-600 p-2 hover:bg-blue-700">Download CV</a>
                         </li>
                     </ul>
                 </details>
@@ -85,7 +93,23 @@ export default function Navbar() {
                         </li>
                     ))}
                     <li>
-                        <button className="rounded bg-blue-600 p-2 hover:bg-blue-700">Download CV</button>
+                        <a
+                            className="text-lg transition hover:text-slate-400"
+                            href="/Rico-Potgieter-CV.pdf"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            CV
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            className="rounded bg-blue-600 p-2 hover:bg-blue-700"
+                            href="/Rico-Potgieter-CV.pdf"
+                            download
+                        >
+                            Download CV
+                        </a>
                     </li>
                 </ul>
             </div>
