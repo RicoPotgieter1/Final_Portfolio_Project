@@ -57,9 +57,6 @@ async function AdminContent({ searchParams }) {
                             Update the introduction shown on your portfolio.
                         </p>
                     </div>
-                    <label htmlFor="about" className="mb-2 block text-sm font-medium text-slate-700">
-                        About content
-                    </label>
                     <textarea
                         id="about"
                         name="about"

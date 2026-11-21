@@ -9,6 +9,7 @@ export default function HeroSection() {
                     className="rounded-full"
                     src={placeholderImage}
                     width={150}
+                    loading="eager"
                     alt="Image of the rico potgieter"
                 />
                 <h2 className="text-3xl font-semibold pt-3">Rico Potgieter</h2>
