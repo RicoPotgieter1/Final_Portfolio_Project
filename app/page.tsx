@@ -8,7 +8,8 @@ import "./globals.css"
 import { AboutSkeleton, ProjectsSkeleton, SkillsSkeleton} from "./ui/skeletons"
 
 export const metadata = {
-    title: "Portfolio"
+    title: "Portfolio",
+    description: "Rico Potgieter's portfolio website."
 }
 
 export default function MainPage() {

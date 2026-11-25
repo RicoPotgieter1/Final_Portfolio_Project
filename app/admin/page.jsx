@@ -8,7 +8,8 @@ import PendingButton from "../ui/pending-button"
 import SavedNotice from "../ui/saved-notice"
 
 export const metadata = {
-    title: "Portfolio Editor"
+    title: "Portfolio Editor",
+    description: "Manage the content displayed on your portfolio."
 }
 
 async function AdminContent({ searchParams }) {
