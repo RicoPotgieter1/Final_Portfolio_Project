@@ -1,5 +1,4 @@
 -- Run after applying the Supabase migrations.
--- Inserts starter portfolio content without overwriting existing records.
 
 BEGIN;
 
