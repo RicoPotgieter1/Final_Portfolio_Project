@@ -25,3 +25,26 @@ Shows my CV with my Qualifications
 - Vercel
 
 ## Setup steps
+
+## Features
+### About 
+An description of who i am and what job role I'm looking for.
+
+### Project
+Shows a project I worked on
+
+### Skills
+Lists the different skills I have in different categories
+
+### CV
+Shows my CV with my Qualifications
+
+## Tech stack
+- Next.js (App Router)
+- React
+- TypeScript
+- Tailwind
+- Supabase (Auth, Postgres, Storage)
+- Vercel
+
+## Setup steps
