@@ -42,6 +42,9 @@ Requires Node [20] or later.
 ## AI use
 I used claude for code suggestions, debugging, creating the seed.sql, creating the skeleton.tsx and general goal management for recommended weekly deadlines.
 
+## What I would do next:
+- Make a Projects page where I can add, remove and edit multiple projects
+
 ## Links
 - Video walkthrough: https://youtu.be/Nu7eLpbxU40
 - GitHub: https://github.com/RicoPotgieter1
