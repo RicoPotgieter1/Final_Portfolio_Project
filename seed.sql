@@ -4,7 +4,7 @@ BEGIN;
 
 INSERT INTO public.about ("About_content")
 SELECT
-  'I''m Rico Potgieter, a developer who enjoys building practical, user-friendly web applications. This portfolio showcases my work, the technologies I use, and what I''m learning as I grow as a developer.'
+  'I''m Rico, a junior full-stack developer looking for a junior developer role where I can build with React, Next.js and Supabase. I like to build full stack apps but I prefer doing back-end coding. I studied at Unicollege because I wanted to learn how to program and grow my knowledge through building projects.'
 WHERE NOT EXISTS (
   SELECT 1
   FROM public.about
