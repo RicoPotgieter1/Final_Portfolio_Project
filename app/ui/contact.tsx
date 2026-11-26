@@ -39,6 +39,7 @@ export default function ContactSection() {
                             autoComplete="given-name"
                             className="w-full rounded-lg border border-text bg-white px-3 py-2 focus:border-blue-300 focus:outline-none focus:ring"
                             required
+                            maxLength={50}
                         />
                     </div>
 
@@ -52,7 +53,7 @@ export default function ContactSection() {
                             name="lastName"
                             autoComplete="family-name"
                             className="w-full rounded-lg border border-text bg-white px-3 py-2 focus:border-blue-300 focus:outline-none focus:ring"
-                            required
+                            maxLength={50}
                         />
                     </div>
 
@@ -67,6 +68,7 @@ export default function ContactSection() {
                             autoComplete="email"
                             className="w-full rounded-lg border border-text bg-white px-3 py-2 focus:border-blue-300 focus:outline-none focus:ring"
                             required
+                            maxLength={100}
                         />
                     </div>
 
@@ -80,6 +82,7 @@ export default function ContactSection() {
                             rows={4}
                             className="w-full rounded-lg border border-text bg-white px-3 py-2 focus:border-blue-300 focus:outline-none focus:ring"
                             required
+                            maxLength={600}
                         />
                     </div>
                     <Button type="submit" disabled={isPending} aria-busy={isPending}>
