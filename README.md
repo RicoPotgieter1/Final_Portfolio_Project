@@ -33,15 +33,14 @@ Requires Node [20] or later.
    ```
 2. Create a project at supabase.com.
 3. Apply the database setup: run the SQL files in `supabase/migrations/` in order in the Supabase SQL Editor (or use `npx supabase link` and `npx supabase db push`).
-4. Create a public Storage bucket named `screenshots` and apply its policies (in `supabase/migrations/`).
-5. Create your admin user under Authentication, then disable public sign-ups.
+5. Create your admin user under Authentication.
 6. Rename `.env.example` to `.env.local` and fill in:
    - `NEXT_PUBLIC_SUPABASE_URL`
    - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
 7. Run `npm run dev` and open http://localhost:3000.
 
 ## AI use
-I used claude for code suggestions, debugging, creating the seed.sql and general goal management for recommended weekly deadlines.
+I used claude for code suggestions, debugging, creating the seed.sql, creating the skeleton.tsx and general goal management for recommended weekly deadlines.
 
 ## Links
 - Video walkthrough: https://youtu.be/Nu7eLpbxU40

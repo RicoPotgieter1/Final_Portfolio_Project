@@ -14,10 +14,10 @@ INSERT INTO public.skills (heading, content)
 SELECT seed.heading, seed.content
 FROM (
   VALUES
-    ('Languages', 'TypeScript, JavaScript, HTML, CSS'),
-    ('Frameworks & Tools', 'Next.js, React, Tailwind CSS'),
+    ('Languages', 'JavaScript, HTML, CSS, Python'),
+    ('Frameworks & Tools', 'Git, Tailwind CSS'),
     ('Databases', 'Supabase, PostgreSQL'),
-    ('Backend & APIs', 'Supabase, REST APIs')
+    ('Backend & APIs', 'Next.js, Flask')
 ) AS seed(heading, content)
 WHERE NOT EXISTS (
   SELECT 1
@@ -42,9 +42,9 @@ SELECT
   'I needed a central place to present my background, skills, and project work, with content that I could update without changing the site code.',
   'Designed and built the portfolio, its Supabase-backed content, and the admin editor.',
   'Next.js, React, TypeScript, Tailwind CSS, Supabase',
-  'Add more project case studies and screenshots as they become available.',
+  'I would add a mailing system for better communication between the clinic and the patient and a system admin page for easier access to the user accounts.',
   'https://github.com/RicoPotgieter1/Final_Portfolio_Project',
-  'https://final-portfolio-project-eosin.vercel.app/',
+  'https://nextjs-dashboard-gamma-lemon-kyjcybo0s5.vercel.app/,
   '{}'::text[]
 WHERE NOT EXISTS (
   SELECT 1
