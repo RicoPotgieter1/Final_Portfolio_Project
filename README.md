@@ -4,6 +4,7 @@
 **Live site:** https://final-portfolio-project-eosin.vercel.app/
 
 ![Home page screenshot](public/home.png)
+![Admin page screenshot](public/admin_page.png)
 
 ## Features
 - **About:** who I am and the role I'm looking for
@@ -11,7 +12,7 @@
 - **Skills:** each skill devided into four categories
 - **Contact:** form saved to Supabase, with spam protection
 - **CV:** downloadable PDF
-- **Admin:** page behind Supabase Auth for editing content and uploading screenshots
+- **Admin:** page behind Supabase Auth for editing content and uploading screenshots saved to Supabase, with spam protection 
 
 ## Tech stack
 - Next.js (App Router)
@@ -43,6 +44,6 @@ Requires Node [20] or later.
 I used claude for code suggestions, debugging, creating the seed.sql and general goal management for recommended weekly deadlines.
 
 ## Links
-- Video walkthrough: [link]
+- Video walkthrough: https://youtu.be/Nu7eLpbxU40
 - GitHub: https://github.com/RicoPotgieter1
 - LinkedIn: https://www.linkedin.com/in/rico-potgieter-aa3b7b355/
